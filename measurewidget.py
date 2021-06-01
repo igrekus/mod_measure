@@ -188,81 +188,27 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
 
         self._params = 0
 
-        # region LO params
-        self._spinPloMin = QDoubleSpinBox(parent=self)
-        self._spinPloMin.setRange(-30, 30)
-        self._spinPloMin.setSingleStep(1)
-        self._spinPloMin.setValue(-10)
-        self._spinPloMin.setSuffix(' дБм')
-        self._devices._layout.addRow('Pгет мин=', self._spinPloMin)
+        self._spinPloMin = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=-10, suffix=' дБм')
+        self._spinPloMax = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=0, suffix=' дБм')
+        self._spinPloDelta = _make_double_spinbox(parent=self, start=0, end=30, step=1, value=5, suffix=' дБм')
+        self._spinFloMin = _make_double_spinbox(parent=self, start=0, end=40, step=1, decimals=3, value=0.005, suffix=' ГГц')
+        self._spinFloMax = _make_double_spinbox(parent=self, start=0, end=40, step=1, decimals=3, value=6.005, suffix=' ГГц')
+        self._spinFloDelta = _make_double_spinbox(parent=self, start=0, end=40, step=0.1, decimals=3, value=0.1, suffix=' ГГц')
+        self._checkFreqLoDiv2 = _make_checkbox(self, False)
+        self._spinUsrc = _make_double_spinbox(parent=self, start=4.75, end=5.25, step=0.25, value=5, suffix=' В')
+        self._spinSaRefLevel = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=10, suffix=' дБ')
+        self._spinSaScaleY = _make_double_spinbox(parent=self, start=0, end=30, step=1, value=5, suffix=' дБ')
 
-        self._spinPloMax = QDoubleSpinBox(parent=self)
-        self._spinPloMax.setRange(-30, 30)
-        self._spinPloMax.setSingleStep(1)
-        self._spinPloMax.setValue(0)
-        self._spinPloMax.setSuffix(' дБм')
-        self._devices._layout.addRow('Pгет макс=', self._spinPloMax)
-
-        self._spinPloDelta = QDoubleSpinBox(parent=self)
-        self._spinPloDelta.setRange(0, 30)
-        self._spinPloDelta.setSingleStep(1)
-        self._spinPloDelta.setValue(5)
-        self._spinPloDelta.setSuffix(' дБм')
-        self._devices._layout.addRow('ΔPгет=', self._spinPloDelta)
-
-        self._spinFloMin = QDoubleSpinBox(parent=self)
-        self._spinFloMin.setRange(0, 40)
-        self._spinFloMin.setSingleStep(1)
-        self._spinFloMin.setDecimals(3)
-        self._spinFloMin.setValue(0.005)
-        self._spinFloMin.setSuffix(' ГГц')
-        self._devices._layout.addRow('Fгет.мин=', self._spinFloMin)
-
-        self._spinFloMax = QDoubleSpinBox(parent=self)
-        self._spinFloMax.setRange(0, 40)
-        self._spinFloMax.setSingleStep(1)
-        self._spinFloMax.setDecimals(3)
-        self._spinFloMax.setValue(6.005)
-        self._spinFloMax.setSuffix(' ГГц')
-        self._devices._layout.addRow('Fгет.макс=', self._spinFloMax)
-
-        self._spinFloDelta = QDoubleSpinBox(parent=self)
-        self._spinFloDelta.setRange(0, 40)
-        self._spinFloDelta.setSingleStep(0.1)
-        self._spinFloDelta.setDecimals(3)
-        self._spinFloDelta.setValue(0.1)
-        self._spinFloDelta.setSuffix(' ГГц')
-        self._devices._layout.addRow('ΔFгет=', self._spinFloDelta)
-
-        self._checkFreqLoDiv2 = QCheckBox(parent=self)
-        self._checkFreqLoDiv2.setChecked(False)
-        self._devices._layout.addRow('1/2 Fгет.', self._checkFreqLoDiv2)
-        # endregion
-
-        # region power source params
-        self._spinUsrc = QDoubleSpinBox(parent=self)
-        self._spinUsrc.setRange(4.75, 5.25)
-        self._spinUsrc.setSingleStep(0.25)
-        self._spinUsrc.setValue(5)
-        self._spinUsrc.setSuffix(' В')
-        self._devices._layout.addRow('Uпит.=', self._spinUsrc)
-        # endregion
-
-        # region SA params
-        self._spinSaRefLevel = QDoubleSpinBox(parent=self)
-        self._spinSaRefLevel.setRange(-30, 30)
-        self._spinSaRefLevel.setSingleStep(0.1)
-        self._spinSaRefLevel.setValue(10)
-        self._spinSaRefLevel.setSuffix(' дБ')
-        self._devices._layout.addRow('Rlev=', self._spinSaRefLevel)
-
-        self._spinSaScaleY = QDoubleSpinBox(parent=self)
-        self._spinSaScaleY.setRange(0, 30)
-        self._spinSaScaleY.setSingleStep(0.1)
-        self._spinSaScaleY.setValue(5)
-        self._spinSaScaleY.setSuffix(' дБ')
-        self._devices._layout.addRow('Scale y=', self._spinSaScaleY)
-        # endregion
+        self._devices.addParam('Pгет мин=', self._spinPloMin)
+        self._devices.addParam('Pгет макс=', self._spinPloMax)
+        self._devices.addParam('ΔPгет=', self._spinPloDelta)
+        self._devices.addParam('Fгет.мин=', self._spinFloMin)
+        self._devices.addParam('Fгет.макс=', self._spinFloMax)
+        self._devices.addParam('ΔFгет=', self._spinFloDelta)
+        self._devices.addParam('1/2 Fгет.', self._checkFreqLoDiv2)
+        self._devices.addParam('Uпит.=', self._spinUsrc)
+        self._devices.addParam('Rlev=', self._spinSaRefLevel)
+        self._devices.addParam('Scale y=', self._spinSaScaleY)
 
     def _connectSignals(self):
         self._spinPloMin.valueChanged.connect(self.on_params_changed)
@@ -373,3 +319,19 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         # remove_if_exists('cal_lo.ini')
         # remove_if_exists('cal_rf.ini')
         remove_if_exists('adjust.ini')
+
+
+def _make_double_spinbox(parent, start=0.0, end=1.0, step=0.1, decimals=2, value=0.1, suffix=''):
+    spinbox = QDoubleSpinBox(parent=parent)
+    spinbox.setRange(start, end)
+    spinbox.setSingleStep(step)
+    spinbox.setDecimals(decimals)
+    spinbox.setValue(value)
+    spinbox.setSuffix(suffix)
+    return spinbox
+
+
+def _make_checkbox(parent, is_checked):
+    checkbox = QCheckBox(parent=parent)
+    checkbox.setChecked(is_checked)
+    return checkbox

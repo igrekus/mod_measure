@@ -41,3 +41,6 @@ class DeviceSelectWidget(QWidget):
     def enabled(self, value: bool):
         self._enabled = value
         self._combo.setEnabled(value)
+
+    def addParam(self, label, widget):
+        self._layout.addRow(label, widget)

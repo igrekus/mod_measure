@@ -41,11 +41,11 @@ class MeasureWidget(QWidget):
         self._controller = controller
         self._threads = QThreadPool()
 
-        self._devices = DeviceSelectWidget(parent=self, params=self._controller.deviceParams)
-        self._ui.layParams.insertWidget(0, self._devices)
-        self._devices.selectedChanged.connect(self.on_selectedChanged)
+        self._paramInputWidget = DeviceSelectWidget(parent=self, params=self._controller.deviceParams)
+        self._ui.layParams.insertWidget(0, self._paramInputWidget)
+        self._paramInputWidget.selectedChanged.connect(self.on_selectedChanged)
 
-        self._selectedDevice = self._devices.selected
+        self._selectedDevice = self._paramInputWidget.selected
 
     def check(self):
         print('checking...')
@@ -136,7 +136,7 @@ class MeasureWidget(QWidget):
         self._ui.btnCancel.setEnabled(False)
         self._ui.btnCalibrateLO.setEnabled(False)
         self._ui.btnCalibrateRf.setEnabled(False)
-        self._devices.enabled = True
+        self._paramInputWidget.enabled = True
 
     def _modePreCheck(self):
         self._ui.btnCheck.setEnabled(True)
@@ -144,7 +144,7 @@ class MeasureWidget(QWidget):
         self._ui.btnCancel.setEnabled(False)
         self._ui.btnCalibrateLO.setEnabled(False)
         self._ui.btnCalibrateRF.setEnabled(False)
-        self._devices.enabled = True
+        self._paramInputWidget.enabled = True
 
     def _modeDuringCheck(self):
         self._ui.btnCheck.setEnabled(False)
@@ -152,7 +152,7 @@ class MeasureWidget(QWidget):
         self._ui.btnCancel.setEnabled(False)
         self._ui.btnCalibrateLO.setEnabled(False)
         self._ui.btnCalibrateRF.setEnabled(False)
-        self._devices.enabled = False
+        self._paramInputWidget.enabled = False
 
     def _modePreMeasure(self):
         self._ui.btnCheck.setEnabled(False)
@@ -160,7 +160,7 @@ class MeasureWidget(QWidget):
         self._ui.btnCancel.setEnabled(False)
         self._ui.btnCalibrateLO.setEnabled(True)
         self._ui.btnCalibrateRF.setEnabled(True)
-        self._devices.enabled = False
+        self._paramInputWidget.enabled = False
 
     def _modeDuringMeasure(self):
         self._ui.btnCheck.setEnabled(False)
@@ -168,7 +168,7 @@ class MeasureWidget(QWidget):
         self._ui.btnCancel.setEnabled(True)
         self._ui.btnCalibrateLO.setEnabled(False)
         self._ui.btnCalibrateRF.setEnabled(False)
-        self._devices.enabled = False
+        self._paramInputWidget.enabled = False
 
     def updateWidgets(self, params):
         raise NotImplementedError
@@ -199,16 +199,16 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         self._spinSaRefLevel = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=10, suffix=' дБ')
         self._spinSaScaleY = _make_double_spinbox(parent=self, start=0, end=30, step=1, value=5, suffix=' дБ')
 
-        self._devices.addParam('Pгет мин=', self._spinPloMin)
-        self._devices.addParam('Pгет макс=', self._spinPloMax)
-        self._devices.addParam('ΔPгет=', self._spinPloDelta)
-        self._devices.addParam('Fгет.мин=', self._spinFloMin)
-        self._devices.addParam('Fгет.макс=', self._spinFloMax)
-        self._devices.addParam('ΔFгет=', self._spinFloDelta)
-        self._devices.addParam('1/2 Fгет.', self._checkFreqLoDiv2)
-        self._devices.addParam('Uпит.=', self._spinUsrc)
-        self._devices.addParam('Rlev=', self._spinSaRefLevel)
-        self._devices.addParam('Scale y=', self._spinSaScaleY)
+        self._paramInputWidget.addParam('Pгет мин=', self._spinPloMin)
+        self._paramInputWidget.addParam('Pгет макс=', self._spinPloMax)
+        self._paramInputWidget.addParam('ΔPгет=', self._spinPloDelta)
+        self._paramInputWidget.addParam('Fгет.мин=', self._spinFloMin)
+        self._paramInputWidget.addParam('Fгет.макс=', self._spinFloMax)
+        self._paramInputWidget.addParam('ΔFгет=', self._spinFloDelta)
+        self._paramInputWidget.addParam('1/2 Fгет.', self._checkFreqLoDiv2)
+        self._paramInputWidget.addParam('Uпит.=', self._spinUsrc)
+        self._paramInputWidget.addParam('Rlev=', self._spinSaRefLevel)
+        self._paramInputWidget.addParam('Scale y=', self._spinSaScaleY)
 
     def _connectSignals(self):
         self._spinPloMin.valueChanged.connect(self.on_params_changed)

@@ -188,41 +188,63 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
 
         self._params = 0
 
-        self._spinPloMin = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=-10, suffix=' дБм')
-        self._spinPloMax = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=0, suffix=' дБм')
-        self._spinPloDelta = _make_double_spinbox(parent=self, start=0, end=30, step=1, value=5, suffix=' дБм')
-        self._spinFloMin = _make_double_spinbox(parent=self, start=0, end=40, step=1, decimals=3, value=0.005, suffix=' ГГц')
-        self._spinFloMax = _make_double_spinbox(parent=self, start=0, end=40, step=1, decimals=3, value=6.005, suffix=' ГГц')
-        self._spinFloDelta = _make_double_spinbox(parent=self, start=0, end=40, step=0.1, decimals=3, value=0.1, suffix=' ГГц')
-        self._checkFreqLoDiv2 = _make_checkbox(self, False)
-        self._spinUsrc = _make_double_spinbox(parent=self, start=4.75, end=5.25, step=0.25, value=5, suffix=' В')
-        self._spinSaRefLevel = _make_double_spinbox(parent=self, start=-30, end=30, step=1, value=10, suffix=' дБ')
-        self._spinSaScaleY = _make_double_spinbox(parent=self, start=0, end=30, step=1, value=5, suffix=' дБ')
-
-        self._paramInputWidget.addParam('Pгет мин=', self._spinPloMin)
-        self._paramInputWidget.addParam('Pгет макс=', self._spinPloMax)
-        self._paramInputWidget.addParam('ΔPгет=', self._spinPloDelta)
-        self._paramInputWidget.addParam('Fгет.мин=', self._spinFloMin)
-        self._paramInputWidget.addParam('Fгет.макс=', self._spinFloMax)
-        self._paramInputWidget.addParam('ΔFгет=', self._spinFloDelta)
-        self._paramInputWidget.addParam('1/2 Fгет.', self._checkFreqLoDiv2)
-        self._paramInputWidget.addParam('Uпит.=', self._spinUsrc)
-        self._paramInputWidget.addParam('Rlev=', self._spinSaRefLevel)
-        self._paramInputWidget.addParam('Scale y=', self._spinSaScaleY)
+        self._paramInputWidget.createWidgets(
+            params={
+                'Plo_min': [
+                    'spin',
+                    'Pгет мин=',
+                    {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
+                ],
+                'Plo_max': [
+                    'spin',
+                    'Pгет макс=',
+                    {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
+                ],
+                'Plo_delta': [
+                    'spin',
+                    'ΔPгет=',
+                    {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
+                ],
+                'Flo_min': [
+                    'spin',
+                    'Fгет.мин=',
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.005, 'suffix': ' ГГЦ'}
+                ],
+                'Flo_max': [
+                    'spin',
+                    'Fгет.макс=',
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.005, 'suffix': ' ГГЦ'}
+                ],
+                'Flo_delta': [
+                    'spin',
+                    'ΔFгет=',
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 0.1, 'decimals': 3, 'value': 0.1, 'suffix': ' ГГЦ'}
+                ],
+                'is_Flo_div2': [
+                    'check',
+                    '1/2 Fгет.',
+                    {'parent': self, 'is_checked': False}
+                ],
+                'Usrc': [
+                    'spin',
+                    'Uпит.=',
+                    {'parent': self, 'start': 4.75, 'end': 5.25, 'step': 0.25, 'value': 5.0, 'suffix': ' В'}
+                ],
+                'sa_rlev': [
+                    'spin',
+                    'Rlev=',
+                    {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}
+                ],
+                'sa_scale_y': [
+                    'spin',
+                    'Scale y=',
+                    {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБ'}
+                ],
+            }
+        )
 
     def _connectSignals(self):
-        self._spinPloMin.valueChanged.connect(self.on_params_changed)
-        self._spinPloMax.valueChanged.connect(self.on_params_changed)
-        self._spinPloDelta.valueChanged.connect(self.on_params_changed)
-        self._spinFloMin.valueChanged.connect(self.on_params_changed)
-        self._spinFloMax.valueChanged.connect(self.on_params_changed)
-        self._spinFloDelta.valueChanged.connect(self.on_params_changed)
-        self._checkFreqLoDiv2.toggled.connect(self.on_params_changed)
-
-        self._spinUsrc.valueChanged.connect(self.on_params_changed)
-
-        self._spinSaRefLevel.valueChanged.connect(self.on_params_changed)
-        self._spinSaScaleY.valueChanged.connect(self.on_params_changed)
+        self._paramInputWidget.secondaryChanged.connect(self.on_params_changed)
 
     def check(self):
         print('subclass checking...')
@@ -281,57 +303,14 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 print('cancelling task')
             self._token.cancelled = True
 
-    def on_params_changed(self, value):
-        if value != 1:
-            self._uiDebouncer.start(5000)
-
-        params = {
-            'Plo_min': self._spinPloMin.value(),
-            'Plo_max': self._spinPloMax.value(),
-            'Plo_delta': self._spinPloDelta.value(),
-            'Flo_min': self._spinFloMin.value(),
-            'Flo_max': self._spinFloMax.value(),
-            'Flo_delta': self._spinFloDelta.value(),
-            'is_Flo_div2': self._checkFreqLoDiv2.isChecked(),
-
-            'Usrc': self._spinUsrc.value(),
-
-            'sa_rlev': self._spinSaRefLevel.value(),
-            'sa_scale_y': self._spinSaScaleY.value(),
-        }
-        self.secondaryChanged.emit(params)
+    def on_params_changed(self):
+        self.secondaryChanged.emit(self._paramInputWidget.params)
 
     def updateWidgets(self, params):
-        self._spinPloMin.setValue(params['Plo_min'])
-        self._spinPloMax.setValue(params['Plo_max'])
-        self._spinPloDelta.setValue(params['Plo_delta'])
-        self._spinFloMin.setValue(params['Flo_min'])
-        self._spinFloMax.setValue(params['Flo_max'])
-        self._spinFloDelta.setValue(params['Flo_delta'])
-        self._checkFreqLoDiv2.setChecked(params['is_Flo_div2'])
-        self._spinUsrc.setValue(params['Usrc'])
-        self._spinSaRefLevel.setValue(params['sa_rlev'])
-        self._spinSaScaleY.setValue(params['sa_scale_y'])
-
+        self._paramInputWidget.updateWidgets(params)
         self._connectSignals()
 
     def on_debounced_gui(self):
         # remove_if_exists('cal_lo.ini')
         # remove_if_exists('cal_rf.ini')
         remove_if_exists('adjust.ini')
-
-
-def _make_double_spinbox(parent, start=0.0, end=1.0, step=0.1, decimals=2, value=0.1, suffix=''):
-    spinbox = QDoubleSpinBox(parent=parent)
-    spinbox.setRange(start, end)
-    spinbox.setSingleStep(step)
-    spinbox.setDecimals(decimals)
-    spinbox.setValue(value)
-    spinbox.setSuffix(suffix)
-    return spinbox
-
-
-def _make_checkbox(parent, is_checked):
-    checkbox = QCheckBox(parent=parent)
-    checkbox.setChecked(is_checked)
-    return checkbox

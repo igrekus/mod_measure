@@ -55,7 +55,6 @@ class MainWindow(QMainWindow):
         self._instrumentController.pointReady.connect(self.on_point_ready)
 
         self._measureWidget.updateWidgets(self._instrumentController.secondaryParams)
-        self._measureWidget.on_params_changed(1)
 
     def _saveScreenshot(self):
         screen = QGuiApplication.primaryScreen()

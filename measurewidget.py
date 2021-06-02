@@ -1,8 +1,8 @@
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QRunnable, QThreadPool, QTimer
-from PyQt5.QtWidgets import QWidget, QDoubleSpinBox, QCheckBox
+from PyQt5.QtWidgets import QWidget
 
-from deviceselectwidget import DeviceSelectWidget
+from mytools.deviceselectwidget import DeviceSelectWidget
 from util.file import remove_if_exists
 
 

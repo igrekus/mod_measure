@@ -20,6 +20,9 @@
       <property name="spacing">
        <number>0</number>
       </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -39,6 +42,9 @@
      <widget class="QGroupBox" name="grpProgress">
       <property name="title">
        <string>Прогресс измерения</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>

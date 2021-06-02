@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>224</width>
+    <width>218</width>
     <height>113</height>
    </rect>
   </property>
@@ -15,16 +15,16 @@
   </property>
   <layout class="QVBoxLayout" name="layparams">
    <property name="leftMargin">
-    <number>6</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>6</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QGroupBox" name="grpParams">
@@ -33,6 +33,12 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
      <property name="title">
       <string>Параметры</string>
@@ -51,7 +57,7 @@
        <number>3</number>
       </property>
       <property name="rightMargin">
-       <number>3</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
        <number>6</number>
@@ -83,7 +89,7 @@
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>8</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -122,7 +128,7 @@
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>8</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -164,6 +170,9 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="rightMargin">
+            <number>8</number>
+           </property>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">

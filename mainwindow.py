@@ -11,7 +11,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
 
 from formlayout.formlayout import fedit
 from instrumentcontroller import InstrumentController
-from measurewidget import MeasureWidgetWithSecondaryParameters
+from measurewidgetwithsecondaryparams import MeasureWidgetWithSecondaryParameters
 from mytools.connectionwidget import ConnectionWidget
 from primaryplotwidget import PrimaryPlotWidget
 

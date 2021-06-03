@@ -48,6 +48,21 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                     'ΔFгет=',
                     {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 0.1, 'decimals': 3, 'value': 0.1, 'suffix': ' ГГЦ'}
                 ],
+                'Fmod': [
+                    'spin',
+                    'Fмод=',
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 1.0, 'suffix': ' МГЦ'}
+                ],
+                'Umod': [
+                    'spin',
+                    'Uмод=',
+                    {'parent': self, 'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 2, 'value': 30.0, 'suffix': ' %'}
+                ],
+                'Uoffs': [
+                    'spin',
+                    'Uсм=',
+                    {'parent': self, 'start': -10.0, 'end': 10.0, 'step': 0.1, 'decimals': 2, 'value': 0.5, 'suffix': ' В'}
+                ],
                 'is_Flo_div2': [
                     'check',
                     '1/2 Fгет.',

@@ -317,7 +317,7 @@ class InstrumentController(QObject):
                 print(raw_point)
                 self._add_measure_point(raw_point)
 
-                res.append([raw_point])
+                res.append(raw_point)
 
         gen_lo.send(f'OUTP:STAT OFF')
         time.sleep(0.5)

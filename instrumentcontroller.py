@@ -228,7 +228,7 @@ class InstrumentController(QObject):
         mod_u_offs = secondary['Uoffs']
 
         src_u = secondary['Usrc']
-        src_i = 200   # mA
+        src_i_max = 200   # mA
 
         sa_rlev = secondary['sa_rlev']
         sa_scale_y = secondary['sa_scale_y']
@@ -251,7 +251,7 @@ class InstrumentController(QObject):
         sa.send(f'DISP:WIND:TRAC:Y:PDIV {sa_scale_y}')
         sa.send(':CALC:MARK1:MODE POS')
 
-        src.send(f'APPLY p6v,{src_u}V,{src_i}mA')
+        src.send(f'APPLY p6v,{src_u}V,{src_i_max}mA')
 
         if mock_enabled:
             # with open('./mock_data/meas_1_-10-5db.txt', mode='rt', encoding='utf-8') as f:
@@ -288,14 +288,26 @@ class InstrumentController(QObject):
                 if not mock_enabled:
                     time.sleep(2)
 
-                f_lo_read = float(gen_lo.query('SOUR:FREQ?'))
-                i_src_read = float(mult.query('MEAS:CURR:DC? 1A,DEF'))
+                lo_p_read = float(gen_lo.query('SOUR:POW?'))
+                lo_f_read = float(gen_lo.query('SOUR:FREQ?'))
+
+                src_u_read = src_u
+                src_i_read = float(mult.query('MEAS:CURR:DC? 1A,DEF'))
+
+                sa_p_out = 10   # @f_out = lo_f + mod_f
+                sa_p_carr = 11   # @f_carr = lo_f
+                sa_p_sb = 12   # @f_sb = lo_f - mod_f
+                sa_p_mod_f_x3 = 13   # @f_x3 = lo_sb - 3*f_mod
 
                 raw_point = {
-                    'p_lo': pow_lo,
-                    'f_lo': f_lo_read,
-                    'u_src': src_u,   # power source voltage
-                    'i_src': i_src_read,
+                    'lo_p': lo_p_read,
+                    'lo_f': lo_f_read,
+                    'src_u': src_u_read,   # power source voltage as set in GUI
+                    'src_i': src_i_read,
+                    'sa_p_out': sa_p_out,
+                    'sa_p_carr': sa_p_carr,
+                    'sa_p_sb': sa_p_sb,
+                    'sa_p_mod_f_x3': sa_p_mod_f_x3,
                 }
 
                 if mock_enabled:

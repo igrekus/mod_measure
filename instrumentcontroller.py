@@ -20,7 +20,6 @@ class InstrumentController(QObject):
         addrs = load_ast_if_exists('instr.ini', default={
             'Анализатор': 'GPIB1::18::INSTR',
             'P LO': 'GPIB1::6::INSTR',
-            'P mod': 'GPIB1::7::INSTR',
             'Источник': 'GPIB1::3::INSTR',
             'Мультиметр': 'GPIB1::22::INSTR',
         })
@@ -28,7 +27,6 @@ class InstrumentController(QObject):
         self.requiredInstruments = {
             'Анализатор': AnalyzerFactory(addrs['Анализатор']),
             'P LO': GeneratorFactory(addrs['P LO']),
-            'P mod': GeneratorFactory(addrs['P mod']),
             'Источник': SourceFactory(addrs['Источник']),
             'Мультиметр': MultimeterFactory(addrs['Мультиметр']),
         }
@@ -174,7 +172,7 @@ class InstrumentController(QObject):
 
     def _calibrateRF(self, token, secondary):
         print('run empty calibrate RF')
-        gen_mod = self._instruments['P mod']
+        gen = self._instruments['P LO']
 
         result = dict()
         pprint_to_file('cal_rf.ini', result)
@@ -207,14 +205,12 @@ class InstrumentController(QObject):
 
     def _init(self):
         self._instruments['P LO'].send('*RST')
-        self._instruments['P mod'].send('*RST')
         self._instruments['Источник'].send('*RST')
         self._instruments['Мультиметр'].send('*RST')
         self._instruments['Анализатор'].send('*RST')
 
     def _measure_s_params(self, token, param, secondary):
         gen_lo = self._instruments['P LO']
-        gen_mod = self._instruments['P mod']
         src = self._instruments['Источник']
         mult = self._instruments['Мультиметр']
         sa = self._instruments['Анализатор']

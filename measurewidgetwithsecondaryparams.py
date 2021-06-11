@@ -83,6 +83,11 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                     'Scale y=',
                     {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБ'}
                 ],
+                'sa_span': [
+                    'spin',
+                    'Span=',
+                    {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1.0, 'value': 10.0, 'suffix': ' МГц'}
+                ],
             }
         )
 

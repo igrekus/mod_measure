@@ -51,6 +51,7 @@ class InstrumentController(QObject):
             'Usrc': 5.0,
             'sa_rlev': 10.0,
             'sa_scale_y': 5.0,
+            'sa_span': 10.0,   # MHz
         })
 
         self._calibrated_pows_lo = load_ast_if_exists('cal_lo.ini', default={})
@@ -233,6 +234,7 @@ class InstrumentController(QObject):
 
         sa_rlev = secondary['sa_rlev']
         sa_scale_y = secondary['sa_scale_y']
+        sa_span = secondary['sa_span']
 
         pow_lo_values = [
             round(x, 3)for x in

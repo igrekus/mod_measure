@@ -47,7 +47,7 @@ class InstrumentController(QObject):
             'is_Flo_div2': False,
             'Fmod': 1.0,   # MHz
             'Umod': 30,   # %
-            'Uoffs': 0.5,
+            'Uoffs': 250,   # mV
             'Usrc': 5.0,
             'sa_rlev': 10.0,
             'sa_scale_y': 5.0,
@@ -227,7 +227,7 @@ class InstrumentController(QObject):
 
         mod_f = secondary['Fmod']
         mod_u = secondary['Umod']
-        mod_u_offs = secondary['Uoffs']
+        mod_u_offs = secondary['Uoffs'] / 1_000
 
         src_u = secondary['Usrc']
         src_i_max = 200   # mA

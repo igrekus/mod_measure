@@ -61,7 +61,7 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 'Uoffs': [
                     'spin',
                     'Uсм=',
-                    {'parent': self, 'start': -10.0, 'end': 10.0, 'step': 0.1, 'decimals': 2, 'value': 0.5, 'suffix': ' В'}
+                    {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1, 'decimals': 1, 'value': 250, 'suffix': ' мВ'}
                 ],
                 'is_Flo_div2': [
                     'check',

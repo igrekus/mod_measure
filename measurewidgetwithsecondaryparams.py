@@ -36,12 +36,12 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 'Flo_min': [
                     'spin',
                     'Fгет.мин=',
-                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.005, 'suffix': ' ГГЦ'}
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.05, 'suffix': ' ГГЦ'}
                 ],
                 'Flo_max': [
                     'spin',
                     'Fгет.макс=',
-                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.005, 'suffix': ' ГГЦ'}
+                    {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.05, 'suffix': ' ГГЦ'}
                 ],
                 'Flo_delta': [
                     'spin',
@@ -81,7 +81,7 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 'sa_scale_y': [
                     'spin',
                     'Scale y=',
-                    {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБ'}
+                    {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}
                 ],
                 'sa_span': [
                     'spin',

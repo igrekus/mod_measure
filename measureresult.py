@@ -2,19 +2,13 @@ import os
 import datetime
 
 from collections import defaultdict
-from math import log10, cos, radians
 from subprocess import Popen
 from textwrap import dedent
 
 import pandas as pd
 
 from util.file import load_ast_if_exists, pprint_to_file
-
-KHz = 1_000
-MHz = 1_000_000
-GHz = 1_000_000_000
-mA = 1_000
-mV = 1_000
+from util.const import *
 
 
 class MeasureResult:
@@ -40,43 +34,47 @@ class MeasureResult:
 
     def _process_point(self, data):
         lo_p = data['lo_p']
-        lo_f = data['lo_f'] / GHz
+        lo_f = data['lo_f']
 
         src_u = data['src_u']
         src_i = data['src_i']
 
-        p_out = data['sa_p_out']
-        p_carr = data['sa_p_carr']
-        p_sb = data['sa_p_sb']
-        p_mod_f_x3 = data['sa_p_mod_f_x3']
+        sa_p_out = data['sa_p_out']
+        sa_p_carr = data['sa_p_carr']
+        sa_p_sb = data['sa_p_sb']
+        sa_p_3_harm = data['sa_p_3_harm']
 
-        a_sb = p_out - p_sb
-        a_x3 = p_out - p_mod_f_x3
+        a_sb = sa_p_out - sa_p_sb
+        a_3h = sa_p_out - sa_p_3_harm
 
         if self.adjustment is not None:
             point = self.adjustment[len(self._processed)]
-            p_out += point['p_out']
-            p_carr += point['p_carr']
+            sa_p_out += point['p_out']
+            sa_p_carr += point['p_carr']
             a_sb += point['a_sb']
-            a_x3 += point['a_x3']
+            a_3h += point['a_3h']
 
         self._report = {
             'lo_p': lo_p,
             'lo_f': lo_f,
-            'src_u': round(src_u, 2),
-            'src_i': round(src_i * mA, 2),
-            'p_out': p_out,
-            'p_carr': p_carr,
-            'p_sb': p_sb,
-            'p_mod_f_x3': p_mod_f_x3,
+
+            'p_out': sa_p_out,
+            'p_carr': sa_p_carr,
+            'p_sb': sa_p_sb,
+            'p_3_harm': sa_p_3_harm,
+
             'a_sb': round(a_sb, 2),
-            'a_x3': round(a_x3, 2),
+            'a_3h': round(a_3h, 2),
+
+            'src_u': src_u,
+            'src_i': src_i,
         }
 
-        self.data1[lo_p].append([lo_f, p_out])
-        self.data2[lo_p].append([lo_f, p_carr])
-        self.data3[lo_p].append([lo_f, a_sb])
-        self.data4[lo_p].append([lo_f, a_x3])
+        lo_f_label = lo_f / GIGA
+        self.data1[lo_p].append([lo_f_label, sa_p_out])
+        self.data2[lo_p].append([lo_f_label, sa_p_carr])
+        self.data3[lo_p].append([lo_f_label, a_sb])
+        self.data4[lo_p].append([lo_f_label, a_3h])
         self._processed.append({**self._report})
 
     def clear(self):
@@ -108,7 +106,7 @@ class MeasureResult:
                 'p_out': 0,
                 'p_carr': 0,
                 'a_sb': 0,
-                'a_x3': 0,
+                'a_3h': 0,
 
             } for p in self._processed]
             pprint_to_file('adjust.ini', self.adjustment)
@@ -127,11 +125,11 @@ class MeasureResult:
         Pвых, дБм={p_out:0.3f}
         Pнес, дБм={p_carr:0.3f}
         Pбок, дБм={p_sb}
-        P3г, дБм={p_mod_f_x3}
+        P3г, дБм={p_3_harm}
         
         Расчётные параметры:
-        αбок, дБ={a_ыи}
-        αx3, дБ={a_x3}
+        αбок, дБ={a_sb}
+        αx3, дБ={a_3h}
         """.format(**self._report))
 
     def export_excel(self):

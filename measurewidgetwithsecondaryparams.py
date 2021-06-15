@@ -19,72 +19,58 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
         self._paramInputWidget.createWidgets(
             params={
                 'Plo_min': [
-                    'spin',
                     'Pгет мин=',
                     {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
                 ],
                 'Plo_max': [
-                    'spin',
                     'Pгет макс=',
                     {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
                 ],
                 'Plo_delta': [
-                    'spin',
                     'ΔPгет=',
                     {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
                 ],
                 'Flo_min': [
-                    'spin',
                     'Fгет.мин=',
                     {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.05, 'suffix': ' ГГЦ'}
                 ],
                 'Flo_max': [
-                    'spin',
                     'Fгет.макс=',
                     {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.05, 'suffix': ' ГГЦ'}
                 ],
                 'Flo_delta': [
-                    'spin',
                     'ΔFгет=',
                     {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 0.1, 'decimals': 3, 'value': 0.1, 'suffix': ' ГГЦ'}
                 ],
                 'Fmod': [
-                    'spin',
                     'Fмод=',
                     {'parent': self, 'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 1.0, 'suffix': ' МГЦ'}
                 ],
                 'Umod': [
-                    'spin',
                     'Uмод=',
                     {'parent': self, 'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 2, 'value': 30.0, 'suffix': ' %'}
                 ],
                 'Uoffs': [
-                    'spin',
                     'Uсм=',
-                    {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1, 'decimals': 1, 'value': 250, 'suffix': ' мВ'}
+                    {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1, 'decimals': 1, 'value': 250.0, 'suffix': ' мВ'}
                 ],
                 'is_Flo_div2': [
-                    'check',
                     '1/2 Fгет.',
-                    {'parent': self, 'is_checked': False}
+                    {'parent': self, 'value': False}
                 ],
                 'Usrc': [
-                    'spin',
                     'Uпит.=',
                     {'parent': self, 'start': 4.75, 'end': 5.25, 'step': 0.25, 'value': 5.0, 'suffix': ' В'}
                 ],
                 'sa_rlev': [
-                    'spin',
                     'Rlev=',
                     {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}
                 ],
                 'sa_scale_y': [
-                    'spin',
                     'Scale y=',
                     {'parent': self, 'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}
                 ],
                 'sa_span': [
-                    'spin',
                     'Span=',
                     {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1.0, 'value': 10.0, 'suffix': ' МГц'}
                 ],

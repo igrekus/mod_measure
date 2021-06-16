@@ -56,7 +56,7 @@ class InstrumentController(QObject):
             'Uoffs': 250,   # mV
             'Usrc': 5.0,
             'sa_rlev': 10.0,
-            'sa_scale_y': 5.0,
+            'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz
         })
 

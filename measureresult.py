@@ -137,7 +137,7 @@ class MeasureResult:
 
     def export_excel(self):
         # TODO implement
-        device = 'demod'
+        device = 'mod'
         path = 'xlsx'
         if not os.path.isdir(f'{path}'):
             os.makedirs(f'{path}')
@@ -145,16 +145,10 @@ class MeasureResult:
         df = pd.DataFrame(self._processed)
 
         df.columns = [
-            'Pгет, дБм', 'Fгет, ГГц',
-            'Pвх, дБм', 'Fвх, ГГц',
+            'Pгет, дБм', 'Fгет, ГГц', 'Pпот, дБ',
+            'Pвых, дБм', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
+            'αбок, дБ', 'αx3, дБ',
             'Uпит, В', 'Iпит, мА',
-            'UI, мВ', 'UQ, мВ',
-            'Δφ, º', 'Fосц, ГГц',
-            'Fпч, МГц', 'αош, мВ',
-            'Pпч, дБм', 'Кп, дБм',
-            'αош, раз', 'αош, дБ',
-            'φош, º', 'αзк, дБ',
-            'Потери, дБ',
         ]
         df.to_excel(file_name, engine='openpyxl', index=False)
 

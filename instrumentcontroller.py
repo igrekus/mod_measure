@@ -58,6 +58,8 @@ class InstrumentController(QObject):
             'sa_rlev': 10.0,
             'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz
+            'sa_avg_state': True,
+            'sa_avg_count': 16,
         })
 
         self._calibrated_pows_lo = load_ast_if_exists('cal_lo.ini', default={})
@@ -260,6 +262,9 @@ class InstrumentController(QObject):
         sa_scale_y = secondary['sa_scale_y']
         sa_span = secondary['sa_span'] * MEGA
 
+        sa_avg_state = 'ON' if secondary['sa_avg_state'] else 'OFF'
+        sa_avg_count = secondary['sa_avg_count']
+
         pow_lo_values = [
             round(x, 3)for x in
             np.arange(start=lo_pow_start, stop=lo_pow_end + 0.002, step=lo_pow_step)
@@ -289,6 +294,8 @@ class InstrumentController(QObject):
         sa.send(f'DISP:WIND:TRAC:Y:RLEV {sa_rlev}')
         sa.send(f'DISP:WIND:TRAC:Y:PDIV {sa_scale_y}')
         sa.send(':CALC:MARK1:MODE POS')
+        sa.send(f'AVER:COUNT {sa_avg_count}')
+        sa.send(f'AVER {sa_avg_state}')
 
         if mock_enabled:
             with open('./mock_data/-10+0db_basline.txt', mode='rt', encoding='utf-8') as f:

@@ -74,6 +74,14 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                     'Span=',
                     {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1.0, 'value': 10.0, 'suffix': ' МГц'}
                 ],
+                'sa_avg_state': [
+                    'Avg.=',
+                    {'parent': self, 'value': True}
+                ],
+                'sa_avg_count': [
+                    'Span=',
+                    {'parent': self, 'start': 0.0, 'end': 1000.0, 'step': 1.0, 'value': 16.0, 'suffix': ''}
+                ],
             }
         )
 

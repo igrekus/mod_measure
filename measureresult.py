@@ -57,19 +57,19 @@ class MeasureResult:
 
         self._report = {
             'lo_p': lo_p,
-            'lo_f': lo_f,
+            'lo_f': round(lo_f / GIGA, 3),
             'lo_p_loss': pow_loss,
 
-            'p_out': sa_p_out,
-            'p_carr': sa_p_carr,
-            'p_sb': sa_p_sb,
-            'p_3_harm': sa_p_3_harm,
+            'p_out': round(sa_p_out, 2),
+            'p_carr': round(sa_p_carr, 2),
+            'p_sb': round(sa_p_sb, 2),
+            'p_3_harm': round(sa_p_3_harm, 2),
 
             'a_sb': round(a_sb, 2),
             'a_3h': round(a_3h, 2),
 
             'src_u': src_u,
-            'src_i': src_i,
+            'src_i': round(src_i, 2),
         }
 
         lo_f_label = lo_f / GIGA

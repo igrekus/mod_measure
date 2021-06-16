@@ -37,7 +37,7 @@ class MeasureResult:
         lo_f = data['lo_f']
 
         src_u = data['src_u']
-        src_i = data['src_i']
+        src_i = data['src_i'] / MILLI
 
         pow_loss = data['loss']
         sa_p_out = data['sa_p_out'] + pow_loss

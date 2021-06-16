@@ -233,7 +233,7 @@ class InstrumentController(QObject):
         def set_read_marker(freq):
             sa.send(f':CALCulate:MARKer1:X {freq}Hz')
             if not mock_enabled:
-                time.sleep(0.15)
+                time.sleep(0.01)
             return float(sa.query(':CALCulate:MARKer:Y?'))
 
         gen_lo = self._instruments['P LO']
@@ -333,11 +333,14 @@ class InstrumentController(QObject):
                 gen_lo.send(f'OUTP:STAT ON')
                 gen_lo.send(f':RAD:ARB ON')
 
-                time.sleep(0.1)
+                # time.sleep(0.1)
                 if not mock_enabled:
-                    time.sleep(0.5)
+                    time.sleep(0.6)
 
                 sa.send(f':SENSe:FREQuency:CENTer {freq_lo}Hz')
+
+                if not mock_enabled:
+                    time.sleep(1)
 
                 f_out = freq_lo - mod_f
                 sa_p_out = set_read_marker(f_out)

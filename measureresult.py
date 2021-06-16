@@ -39,10 +39,11 @@ class MeasureResult:
         src_u = data['src_u']
         src_i = data['src_i']
 
-        sa_p_out = data['sa_p_out']
-        sa_p_carr = data['sa_p_carr']
-        sa_p_sb = data['sa_p_sb']
-        sa_p_3_harm = data['sa_p_3_harm']
+        pow_loss = data['loss']
+        sa_p_out = data['sa_p_out'] + pow_loss
+        sa_p_carr = data['sa_p_carr'] + pow_loss
+        sa_p_sb = data['sa_p_sb'] + pow_loss
+        sa_p_3_harm = data['sa_p_3_harm'] + pow_loss
 
         a_sb = sa_p_out - sa_p_sb
         a_3h = sa_p_out - sa_p_3_harm
@@ -57,6 +58,7 @@ class MeasureResult:
         self._report = {
             'lo_p': lo_p,
             'lo_f': lo_f,
+            'lo_p_loss': pow_loss,
 
             'p_out': sa_p_out,
             'p_carr': sa_p_carr,
@@ -116,6 +118,7 @@ class MeasureResult:
         return dedent("""        Генератор:
         Pгет, дБм={lo_p}
         Fгет, ГГц={lo_f:0.2f}
+        Pпот, дБ={lo_p_loss:0.2f}
         
         Источник питания:
         U, В={src_u}

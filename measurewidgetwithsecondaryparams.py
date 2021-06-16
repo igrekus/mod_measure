@@ -63,7 +63,7 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                     {'parent': self, 'start': 4.75, 'end': 5.25, 'step': 0.25, 'value': 5.0, 'suffix': ' В'}
                 ],
                 'sa_rlev': [
-                    'Rlev=',
+                    'Ref. lev.=',
                     {'parent': self, 'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}
                 ],
                 'sa_scale_y': [

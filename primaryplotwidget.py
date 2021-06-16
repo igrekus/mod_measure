@@ -41,7 +41,7 @@ class PrimaryPlotWidget(QWidget):
         self._curves_10 = dict()
         self._curves_11 = dict()
 
-        self._plot_00.setLabel('left', 'Pвых', **self.label_style)
+        self._plot_00.setLabel('left', 'Pвых, дБм', **self.label_style)
         self._plot_00.setLabel('bottom', 'Fгет, ГГц', **self.label_style)
         self._plot_00.enableAutoRange('x')
         self._plot_00.enableAutoRange('y')
@@ -55,7 +55,7 @@ class PrimaryPlotWidget(QWidget):
         self._plot_00.addItem(self._hLine_00, ignoreBounds=True)
         self._proxy_00 = pg.SignalProxy(self._plot_00.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved_00)
 
-        self._plot_01.setLabel('left', 'Pнес, дБ', **self.label_style)
+        self._plot_01.setLabel('left', 'Pнес, дБм', **self.label_style)
         self._plot_01.setLabel('bottom', 'Fгет, ГГц', **self.label_style)
         self._plot_01.enableAutoRange('x')
         self._plot_01.enableAutoRange('y')
@@ -69,7 +69,7 @@ class PrimaryPlotWidget(QWidget):
         self._plot_01.addItem(self._hLine_01, ignoreBounds=True)
         self._proxy_01 = pg.SignalProxy(self._plot_01.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved_01)
 
-        self._plot_10.setLabel('left', 'αбок', **self.label_style)
+        self._plot_10.setLabel('left', 'αбок, дБ', **self.label_style)
         self._plot_10.setLabel('bottom', 'Fгет, ГГц', **self.label_style)
         self._plot_10.enableAutoRange('x')
         self._plot_10.enableAutoRange('y')
@@ -83,7 +83,7 @@ class PrimaryPlotWidget(QWidget):
         self._plot_10.addItem(self._hLine_10, ignoreBounds=True)
         self._proxy_10 = pg.SignalProxy(self._plot_10.scene().sigMouseMoved, rateLimit=60, slot=self.mouseMoved_10)
 
-        self._plot_11.setLabel('left', 'αx3', **self.label_style)
+        self._plot_11.setLabel('left', 'α3г, дБ', **self.label_style)
         self._plot_11.setLabel('bottom', 'Fгет, ГГц', **self.label_style)
         self._plot_11.enableAutoRange('x')
         self._plot_11.enableAutoRange('y')

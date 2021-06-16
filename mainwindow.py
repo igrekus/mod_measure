@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
             return
         pixmap = screen.grabWindow(self.winId())
 
-        device = 'demod'
+        device = 'mod'
         path = 'png'
         if not os.path.isdir(f'{path}'):
             os.makedirs(f'{path}')

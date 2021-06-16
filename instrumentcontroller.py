@@ -190,8 +190,6 @@ class InstrumentController(QObject):
 
     def _calibrateRF(self, token, secondary):
         print('run empty calibrate RF')
-        gen = self._instruments['P LO']
-        sa = self._instruments['Анализатор']
 
         result = dict()
         pprint_to_file('cal_rf.ini', result)

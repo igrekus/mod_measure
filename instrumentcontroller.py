@@ -344,17 +344,30 @@ class InstrumentController(QObject):
                 if not mock_enabled:
                     time.sleep(1)
 
-                f_out = freq_sa - mod_f
-                sa_p_out = set_read_marker(f_out)
+                if lo_f_is_div2:
+                    f_out = freq_sa + mod_f
+                    sa_p_out = set_read_marker(f_out)
 
-                f_carr = freq_sa
-                sa_p_carr = set_read_marker(f_carr)
+                    f_carr = freq_sa
+                    sa_p_carr = set_read_marker(f_carr)
 
-                f_sb = freq_sa + mod_f
-                sa_p_sb = set_read_marker(f_sb)
+                    f_sb = freq_sa - mod_f
+                    sa_p_sb = set_read_marker(f_sb)
 
-                f_3_harm = freq_sa + 3 * mod_f
-                sa_p_3_harm = set_read_marker(f_3_harm)
+                    f_3_harm = freq_sa - 3 * mod_f
+                    sa_p_3_harm = set_read_marker(f_3_harm)
+                else:
+                    f_out = freq_sa - mod_f
+                    sa_p_out = set_read_marker(f_out)
+
+                    f_carr = freq_sa
+                    sa_p_carr = set_read_marker(f_carr)
+
+                    f_sb = freq_sa + mod_f
+                    sa_p_sb = set_read_marker(f_sb)
+
+                    f_3_harm = freq_sa + 3 * mod_f
+                    sa_p_3_harm = set_read_marker(f_3_harm)
 
                 # lo_p_read = float(gen_lo.query('SOUR:POW?'))
                 # lo_f_read = float(gen_lo.query('SOUR:FREQ?'))

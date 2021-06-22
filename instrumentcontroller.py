@@ -169,19 +169,19 @@ class InstrumentController(QObject):
                 if not mock_enabled:
                     time.sleep(0.5)
 
-                sa.send(f':SENSe:FREQuency:CENTer {freq}Hz')
+                sa.send(f':SENSe:FREQuency:CENTer {freq_gen}Hz')
 
                 if not mock_enabled:
                     time.sleep(0.5)
 
-                sa.send(f':CALCulate:MARKer1:X {freq}Hz')
+                sa.send(f':CALCulate:MARKer1:X {freq_gen}Hz')
                 pow_read = float(sa.query(':CALCulate:MARKer:Y?'))
                 loss = abs(pow_lo - pow_read)
                 if mock_enabled:
                     loss = 10
 
                 print('loss: ', loss)
-                result[pow_lo][freq] = loss
+                result[pow_lo][freq_gen] = loss
 
         result = {k: v for k, v in result.items()}
         pprint_to_file('cal_lo.ini', result)

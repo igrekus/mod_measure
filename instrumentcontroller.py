@@ -304,13 +304,13 @@ class InstrumentController(QObject):
                 mocked_raw_data = ast.literal_eval(''.join(f.readlines()))
 
         res = []
-        for pow_lo in pow_lo_values:
+        for lo_pow in pow_lo_values:
 
-            for freq_lo in freq_lo_values:
+            for lo_freq in freq_lo_values:
 
-                freq_sa = freq_lo
+                freq_sa = lo_freq
                 if lo_f_is_div2:
-                    freq_lo *= 2
+                    lo_freq *= 2
 
                 if token.cancelled:
                     gen_lo.send(f'OUTP:STAT OFF')
@@ -325,9 +325,9 @@ class InstrumentController(QObject):
                     sa.send(':CAL:AUTO ON')
                     raise RuntimeError('measurement cancelled')
 
-                pow_loss = self._calibrated_pows_lo.get(pow_lo, dict()).get(freq_lo, 0) / 2
-                gen_lo.send(f'SOUR:POW {pow_lo + pow_loss}dbm')
-                gen_lo.send(f'SOUR:FREQ {freq_lo}Hz')
+                pow_loss = self._calibrated_pows_lo.get(lo_pow, dict()).get(lo_freq, 0) / 2
+                gen_lo.send(f'SOUR:POW {lo_pow + pow_loss}dbm')
+                gen_lo.send(f'SOUR:FREQ {lo_freq}Hz')
 
                 # TODO hoist out of the loops
                 src.send('OUTPut ON')
@@ -376,8 +376,8 @@ class InstrumentController(QObject):
                 src_i_read = float(mult.query('MEAS:CURR:DC? 1A,DEF'))
 
                 raw_point = {
-                    'lo_p': pow_lo,
-                    'lo_f': freq_lo,
+                    'lo_p': lo_pow,
+                    'lo_f': lo_freq,
                     'src_u': src_u_read,   # power source voltage as set in GUI
                     'src_i': src_i_read,
                     'sa_p_out': sa_p_out,

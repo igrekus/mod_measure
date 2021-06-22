@@ -147,8 +147,9 @@ class InstrumentController(QObject):
 
             for freq in freq_lo_values:
 
+                freq_gen = freq
                 if lo_f_is_div2:
-                    freq /= 2
+                    freq_gen *= 2
 
                 if token.cancelled:
                     gen_lo.send(f'OUTP:STAT OFF')
@@ -160,7 +161,7 @@ class InstrumentController(QObject):
                     raise RuntimeError('calibration cancelled')
 
                 gen_lo.send(f'SOUR:POW {pow_lo}dbm')
-                gen_lo.send(f'SOUR:FREQ {freq}Hz')
+                gen_lo.send(f'SOUR:FREQ {freq_gen}Hz')
 
                 gen_lo.send(f'OUTP:STAT ON')
                 gen_lo.send(f':RAD:ARB ON')
@@ -298,7 +299,7 @@ class InstrumentController(QObject):
         sa.send(f'AVER {sa_avg_state}')
 
         if mock_enabled:
-            with open('./mock_data/-10+0db_basline.txt', mode='rt', encoding='utf-8') as f:
+            with open('./mock_data/-10+0db_live3.txt', mode='rt', encoding='utf-8') as f:
                 index = 0
                 mocked_raw_data = ast.literal_eval(''.join(f.readlines()))
 
@@ -307,8 +308,9 @@ class InstrumentController(QObject):
 
             for freq_lo in freq_lo_values:
 
+                freq_sa = freq_lo
                 if lo_f_is_div2:
-                    freq_lo /= 2
+                    freq_lo *= 2
 
                 if token.cancelled:
                     gen_lo.send(f'OUTP:STAT OFF')
@@ -337,32 +339,32 @@ class InstrumentController(QObject):
                 if not mock_enabled:
                     time.sleep(0.6)
 
-                sa.send(f':SENSe:FREQuency:CENTer {freq_lo}Hz')
+                sa.send(f':SENSe:FREQuency:CENTer {freq_sa}Hz')
 
                 if not mock_enabled:
                     time.sleep(1)
 
-                f_out = freq_lo - mod_f
+                f_out = freq_sa - mod_f
                 sa_p_out = set_read_marker(f_out)
 
-                f_carr = freq_lo
+                f_carr = freq_sa
                 sa_p_carr = set_read_marker(f_carr)
 
-                f_sb = freq_lo + mod_f
+                f_sb = freq_sa + mod_f
                 sa_p_sb = set_read_marker(f_sb)
 
-                f_3_harm = freq_lo + 3 * mod_f
+                f_3_harm = freq_sa + 3 * mod_f
                 sa_p_3_harm = set_read_marker(f_3_harm)
 
-                lo_p_read = float(gen_lo.query('SOUR:POW?'))
-                lo_f_read = float(gen_lo.query('SOUR:FREQ?'))
+                # lo_p_read = float(gen_lo.query('SOUR:POW?'))
+                # lo_f_read = float(gen_lo.query('SOUR:FREQ?'))
 
                 src_u_read = src_u
                 src_i_read = float(mult.query('MEAS:CURR:DC? 1A,DEF'))
 
                 raw_point = {
                     'lo_p': pow_lo,
-                    'lo_f': lo_f_read,
+                    'lo_f': freq_lo,
                     'src_u': src_u_read,   # power source voltage as set in GUI
                     'src_i': src_i_read,
                     'sa_p_out': sa_p_out,

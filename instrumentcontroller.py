@@ -390,6 +390,7 @@ class InstrumentController(QObject):
                 if mock_enabled:
                     raw_point = mocked_raw_data[index]
                     raw_point['loss'] = pow_loss
+                    raw_point['lo_f'] = lo_freq
                     index += 1
 
                 print(raw_point)

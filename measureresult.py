@@ -51,13 +51,15 @@ class MeasureResult:
         sa_p_sb = data['sa_p_sb'] + pow_loss
         sa_p_3_harm = data['sa_p_3_harm'] + pow_loss
 
+        p_out = sa_p_out - (-5.27)  # 30%
+
         a_sb = sa_p_out - sa_p_sb
         a_3h = sa_p_out - sa_p_3_harm
 
         if self.adjustment is not None:
             try:
                 point = self.adjustment[len(self._processed)]
-                sa_p_out += point['p_out']
+                p_out += point['p_out']
                 sa_p_carr += point['p_carr']
                 a_sb += point['a_sb']
                 a_3h += point['a_3h']
@@ -69,7 +71,7 @@ class MeasureResult:
             'lo_f': round(lo_f / GIGA, 3),
             'lo_p_loss': pow_loss,
 
-            'p_out': round(sa_p_out, 2),
+            'p_out': round(p_out, 2),
             'p_carr': round(sa_p_carr, 2),
             'p_sb': round(sa_p_sb, 2),
             'p_3_harm': round(sa_p_3_harm, 2),
@@ -138,7 +140,7 @@ class MeasureResult:
         I, мА={src_i}
 
         Анализатор:
-        Pвых, дБм={p_out:0.3f}
+        Кп, дБм={p_out:0.3f}
         Pнес, дБм={p_carr:0.3f}
         Pбок, дБм={p_sb}
         P3г, дБм={p_3_harm}
@@ -159,7 +161,7 @@ class MeasureResult:
 
         df.columns = [
             'Pгет, дБм', 'Fгет, ГГц', 'Pпот, дБ',
-            'Pвых, дБм', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
+            'Кп, дБ', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
             'αбок, дБ', 'αx3, дБ',
             'Uпит, В', 'Iпит, мА',
         ]

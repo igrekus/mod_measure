@@ -41,7 +41,7 @@ class PrimaryPlotWidget(QWidget):
         self._curves_10 = dict()
         self._curves_11 = dict()
 
-        self._plot_00.setLabel('left', 'Pвых, дБм', **self.label_style)
+        self._plot_00.setLabel('left', 'Кп, дБ', **self.label_style)
         self._plot_00.setLabel('bottom', 'Fгет, ГГц', **self.label_style)
         self._plot_00.enableAutoRange('x')
         self._plot_00.enableAutoRange('y')

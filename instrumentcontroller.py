@@ -57,11 +57,12 @@ class InstrumentController(QObject):
             'Flo_max': 6.05,
             'Flo_delta': 0.1,
             'is_Flo_div2': False,
+            'D': False,
             'Fmod': 1.0,   # MHz
             'Umod': 30,   # %
             'Uoffs': 250,   # mV
             'Usrc': 5.0,
-            'UsrcD': 3.1,
+            'UsrcD': 3.3,
             'sa_rlev': 10.0,
             'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz
@@ -260,6 +261,7 @@ class InstrumentController(QObject):
         lo_f_step = secondary['Flo_delta'] * GIGA
 
         lo_f_is_div2 = secondary['is_Flo_div2']
+        d = secondary['D']
 
         mod_f = secondary['Fmod'] * MEGA
         mod_u = secondary['Umod']   # %
@@ -292,6 +294,10 @@ class InstrumentController(QObject):
 
         gen_lo.send(f':OUTP:MOD:STAT OFF')
         gen_mod.send(f':OUTP:MOD:STAT OFF')
+
+        gen_f_mul = 2 if d else 1
+        gen_lo.send(f':FREQ:MULT {gen_f_mul}')
+        # gen_mod.send(f':FREQ:MULT {gen_f_mul}')
 
         gen_mod.send(f':RAD:ARB OFF')
         gen_mod.send(f':RAD:ARB:WAV "{waveform_filename}"')
@@ -356,7 +362,11 @@ class InstrumentController(QObject):
                 if not mock_enabled:
                     time.sleep(0.6)
 
-                sa.send(f':SENSe:FREQuency:CENTer {freq_sa}Hz')
+                sa.send(f'DISP:WIND:TRAC:X:OFFS {0}Hz')
+                center_f = freq_sa / 2 if d else freq_sa
+                sa.send(f':SENSe:FREQuency:CENTer {center_f}Hz')
+                offset = freq_sa / 2if d else 0
+                sa.send(f'DISP:WIND:TRAC:X:OFFS {offset}Hz')
 
                 if not mock_enabled:
                     time.sleep(1)

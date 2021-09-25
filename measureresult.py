@@ -51,7 +51,9 @@ class MeasureResult:
         sa_p_sb = data['sa_p_sb'] + pow_loss
         sa_p_3_harm = data['sa_p_3_harm'] + pow_loss
 
-        p_out = sa_p_out - (-5.27)  # 30%
+        p_in_at_30_percent = -5.27  # p_in at 30%
+        kp_out = sa_p_out - p_in_at_30_percent
+        kp_carr = sa_p_carr - p_in_at_30_percent
 
         a_sb = sa_p_out - sa_p_sb
         a_3h = sa_p_out - sa_p_3_harm
@@ -59,8 +61,8 @@ class MeasureResult:
         if self.adjustment is not None:
             try:
                 point = self.adjustment[len(self._processed)]
-                p_out += point['p_out']
-                sa_p_carr += point['p_carr']
+                kp_out += point['kp_out']
+                kp_carr += point['kp_carr']
                 a_sb += point['a_sb']
                 a_3h += point['a_3h']
             except LookupError:
@@ -71,8 +73,8 @@ class MeasureResult:
             'lo_f': round(lo_f / GIGA, 3),
             'lo_p_loss': pow_loss,
 
-            'p_out': round(p_out, 2),
-            'p_carr': round(sa_p_carr, 2),
+            'kp_out': round(kp_out, 2),
+            'kp_carr': round(kp_carr, 2),
             'p_sb': round(sa_p_sb, 2),
             'p_3_harm': round(sa_p_3_harm, 2),
 
@@ -84,8 +86,8 @@ class MeasureResult:
         }
 
         lo_f_label = lo_f / GIGA
-        self.data1[lo_p].append([lo_f_label, sa_p_out])
-        self.data2[lo_p].append([lo_f_label, sa_p_carr])
+        self.data1[lo_p].append([lo_f_label, kp_out])
+        self.data2[lo_p].append([lo_f_label, kp_carr])
         self.data3[lo_p].append([lo_f_label, a_sb])
         self.data4[lo_p].append([lo_f_label, a_3h])
         self._processed.append({**self._report})
@@ -121,8 +123,8 @@ class MeasureResult:
             self.adjustment = [{
                 'lo_p': p['lo_p'],
                 'lo_f': p['lo_f'],
-                'p_out': 0,
-                'p_carr': 0,
+                'kp_out': 0,
+                'kp_carr': 0,
                 'a_sb': 0,
                 'a_3h': 0,
             } for p in self._processed]
@@ -140,8 +142,8 @@ class MeasureResult:
         I, мА={src_i}
 
         Анализатор:
-        Кп, дБм={p_out:0.3f}
-        Pнес, дБм={p_carr:0.3f}
+        Кп, дБм={kp_out:0.2f}
+        Кп.нес, дБм={kp_carr:0.3f}
         Pбок, дБм={p_sb}
         P3г, дБм={p_3_harm}
 

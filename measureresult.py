@@ -75,6 +75,8 @@ class MeasureResult:
 
             'kp_out': round(kp_out, 2),
             'kp_carr': round(kp_carr, 2),
+            'p_out': round(sa_p_out, 2),
+            'p_carr': round(sa_p_carr, 2),
             'p_sb': round(sa_p_sb, 2),
             'p_3_harm': round(sa_p_3_harm, 2),
 
@@ -142,8 +144,10 @@ class MeasureResult:
         I, мА={src_i}
 
         Анализатор:
-        Кп, дБм={kp_out:0.2f}
-        Кп.нес, дБм={kp_carr:0.3f}
+        Кп, дБ={kp_out:0.2f}
+        Кп.нес, дБ={kp_carr:0.3f}
+        Pвых., дБм={p_out:0.3f}
+        Pнес., дБм={p_carr:0.3f}
         Pбок, дБм={p_sb}
         P3г, дБм={p_3_harm}
 
@@ -163,7 +167,8 @@ class MeasureResult:
 
         df.columns = [
             'Pгет, дБм', 'Fгет, ГГц', 'Pпот, дБ',
-            'Кп, дБ', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
+            'Кп, дБ', 'Кп.нес, дБ',
+            'Pвых, дБм', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
             'αбок, дБ', 'αx3, дБ',
             'Uпит, В', 'Iпит, мА',
         ]

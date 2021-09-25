@@ -27,7 +27,7 @@ class MeasureResult:
         self.data3 = defaultdict(list)
         self.data4 = defaultdict(list)
 
-        self.adjustment = load_ast_if_exists('adjust.ini', default=None)
+        self.adjustment = load_ast_if_exists('', default={})
         self._table_header = list()
         self._table_data = list()
 

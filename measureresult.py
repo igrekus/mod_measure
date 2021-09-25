@@ -53,7 +53,7 @@ class MeasureResult:
 
         p_in_at_30_percent = -5.27  # p_in at 30%
         kp_out = sa_p_out - p_in_at_30_percent
-        kp_carr = sa_p_carr - p_in_at_30_percent
+        kp_carr = sa_p_carr - lo_p
 
         a_sb = sa_p_out - sa_p_sb
         a_3h = sa_p_out - sa_p_3_harm

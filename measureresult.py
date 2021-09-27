@@ -53,7 +53,7 @@ class MeasureResult:
 
         p_in_at_30_percent = -5.27  # p_in at 30%
         kp_out = sa_p_out - p_in_at_30_percent
-        kp_carr = sa_p_carr - lo_p
+        ap_carr = abs(sa_p_carr - lo_p)
 
         a_sb = sa_p_out - sa_p_sb
         a_3h = sa_p_out - sa_p_3_harm
@@ -62,7 +62,7 @@ class MeasureResult:
             try:
                 point = self.adjustment[len(self._processed)]
                 kp_out += point['kp_out']
-                kp_carr += point['kp_carr']
+                ap_carr += point['ap_carr']
                 a_sb += point['a_sb']
                 a_3h += point['a_3h']
             except LookupError:
@@ -74,12 +74,12 @@ class MeasureResult:
             'lo_p_loss': pow_loss,
 
             'kp_out': round(kp_out, 2),
-            'kp_carr': round(kp_carr, 2),
             'p_out': round(sa_p_out, 2),
             'p_carr': round(sa_p_carr, 2),
             'p_sb': round(sa_p_sb, 2),
             'p_3_harm': round(sa_p_3_harm, 2),
 
+            'ap_carr': round(ap_carr, 2),
             'a_sb': round(a_sb, 2),
             'a_3h': round(a_3h, 2),
 
@@ -89,7 +89,7 @@ class MeasureResult:
 
         lo_f_label = lo_f / GIGA
         self.data1[lo_p].append([lo_f_label, kp_out])
-        self.data2[lo_p].append([lo_f_label, kp_carr])
+        self.data2[lo_p].append([lo_f_label, ap_carr])
         self.data3[lo_p].append([lo_f_label, a_sb])
         self.data4[lo_p].append([lo_f_label, a_3h])
         self._processed.append({**self._report})
@@ -126,7 +126,7 @@ class MeasureResult:
                 'lo_p': p['lo_p'],
                 'lo_f': p['lo_f'],
                 'kp_out': 0,
-                'kp_carr': 0,
+                'ap_carr': 0,
                 'a_sb': 0,
                 'a_3h': 0,
             } for p in self._processed]
@@ -145,13 +145,13 @@ class MeasureResult:
 
         Анализатор:
         Кп, дБ={kp_out:0.2f}
-        Кп.нес, дБ={kp_carr:0.3f}
         Pвых., дБм={p_out:0.3f}
         Pнес., дБм={p_carr:0.3f}
         Pбок, дБм={p_sb}
         P3г, дБм={p_3_harm}
 
         Расчётные параметры:
+        αп.нес, дБ={ap_carr:0.3f}
         αбок, дБ={a_sb}
         αx3, дБ={a_3h}
         """.format(**self._report))
@@ -167,9 +167,9 @@ class MeasureResult:
 
         df.columns = [
             'Pгет, дБм', 'Fгет, ГГц', 'Pпот, дБ',
-            'Кп, дБ', 'Кп.нес, дБ',
+            'Кп, дБ',
             'Pвых, дБм', 'Pнес, дБм', 'Pбок, дБм', 'P3г, дБм',
-            'αбок, дБ', 'αx3, дБ',
+            'αп.нес, дБ', 'αбок, дБ', 'αx3, дБ',
             'Uпит, В', 'Iпит, мА',
         ]
         df.to_excel(file_name, engine='openpyxl', index=False)

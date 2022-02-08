@@ -70,6 +70,10 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                     'Uпит.D=',
                     {'start': 3.1, 'end': 3.5, 'step': 0.1, 'value': 3.3, 'suffix': ' В'}
                 ],
+                'IsrcD_max': [
+                    'Iпит.D м.=',
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'value': 20.0, 'suffix': ' мА'}
+                ],
                 'sa_rlev': [
                     'Ref. lev.=',
                     {'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 10.0, 'suffix': ' дБ'}

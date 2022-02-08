@@ -63,6 +63,7 @@ class InstrumentController(QObject):
             'Uoffs': 250,   # mV
             'Usrc': 5.0,
             'UsrcD': 3.3,
+            'IsrcD_max': 20.0,  # mA
             'sa_rlev': 10.0,
             'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz
@@ -271,7 +272,7 @@ class InstrumentController(QObject):
         src_u = secondary['Usrc']
         src_i_max = 200 * MILLI
         src_u_d = secondary['UsrcD']
-        src_i_d_max = 20 * MILLI
+        src_i_d_max = secondary['IsrcD_max'] * MILLI
 
         sa_rlev = secondary['sa_rlev']
         sa_scale_y = secondary['sa_scale_y']

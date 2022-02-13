@@ -366,7 +366,7 @@ class InstrumentController(QObject):
                 sa.send(f'DISP:WIND:TRAC:X:OFFS {0}Hz')
                 center_f = freq_sa / 2 if d else freq_sa
                 sa.send(f':SENSe:FREQuency:CENTer {center_f}Hz')
-                offset = freq_sa / 2if d else 0
+                offset = freq_sa / 2 if d else 0
                 sa.send(f'DISP:WIND:TRAC:X:OFFS {offset}Hz')
 
                 if not mock_enabled:

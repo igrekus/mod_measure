@@ -22,16 +22,12 @@ class InstrumentController(QObject):
             'Анализатор': 'GPIB1::18::INSTR',
             'P MOD': 'GPIB1::6::INSTR',
             'P LO': 'GPIB1::7::INSTR',
-            'Источник': 'GPIB1::3::INSTR',
-            'Мультиметр': 'GPIB1::22::INSTR',
         })
 
         self.requiredInstruments = {
             'Анализатор': AnalyzerFactory(addrs['Анализатор']),
             'P LO': GeneratorFactory(addrs['P LO']),
             'P MOD': GeneratorFactory(addrs['P MOD']),
-            'Источник': SourceFactory(addrs['Источник']),
-            'Мультиметр': MultimeterFactory(addrs['Мультиметр']),
         }
 
         self.deviceParams = {
@@ -61,9 +57,6 @@ class InstrumentController(QObject):
             'Fmod': 1.0,   # MHz
             'Umod': 30,   # %
             'Uoffs': 250,   # mV
-            'Usrc': 5.0,
-            'UsrcD': 3.3,
-            'IsrcD_max': 20.0,  # mA
             'sa_rlev': 10.0,
             'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz
@@ -236,8 +229,6 @@ class InstrumentController(QObject):
     def _init(self):
         self._instruments['P LO'].send('*RST')
         self._instruments['P MOD'].send('*RST')
-        self._instruments['Источник'].send('*RST')
-        self._instruments['Мультиметр'].send('*RST')
         self._instruments['Анализатор'].send('*RST')
 
     def _measure_s_params(self, token, param, secondary):
@@ -250,8 +241,6 @@ class InstrumentController(QObject):
 
         gen_lo = self._instruments['P LO']
         gen_mod = self._instruments['P MOD']
-        src = self._instruments['Источник']
-        mult = self._instruments['Мультиметр']
         sa = self._instruments['Анализатор']
 
         lo_pow_start = secondary['Plo_min']
@@ -268,11 +257,6 @@ class InstrumentController(QObject):
         mod_u = secondary['Umod']   # %
         mod_u_offs = secondary['Uoffs'] * MILLI
         mod_f_offs_0 = 0.5 * MEGA
-
-        src_u = secondary['Usrc']
-        src_i_max = 200 * MILLI
-        src_u_d = secondary['UsrcD']
-        src_i_d_max = secondary['IsrcD_max'] * MILLI
 
         sa_rlev = secondary['sa_rlev']
         sa_scale_y = secondary['sa_scale_y']
@@ -308,9 +292,6 @@ class InstrumentController(QObject):
         gen_mod.send(f':DM:IQAD ON')
         gen_mod.send(f':DM:STAT ON')
         gen_mod.send(f':DM:IQAD:EXT:IQAT 0db')
-
-        src.send(f'APPLY p6v,{src_u}V,{src_i_max}A')
-        src.send(f'APPLY p25v,{src_u_d}V,{src_i_d_max}A')
 
         sa.send(':CAL:AUTO OFF')
         sa.send(f':SENS:FREQ:SPAN {sa_span}Hz')
@@ -353,7 +334,6 @@ class InstrumentController(QObject):
                 gen_lo.send(f'SOUR:FREQ {lo_freq}Hz')
 
                 # TODO hoist out of the loops
-                src.send('OUTPut ON')
 
                 gen_lo.send(f'OUTP:STAT ON')
                 gen_mod.send(f'OUTP:STAT ON')
@@ -400,14 +380,9 @@ class InstrumentController(QObject):
                 # lo_p_read = float(gen_lo.query('SOUR:POW?'))
                 # lo_f_read = float(gen_lo.query('SOUR:FREQ?'))
 
-                src_u_read = src_u
-                src_i_read = float(mult.query('MEAS:CURR:DC? 1A,DEF'))
-
                 raw_point = {
                     'lo_p': lo_pow,
                     'lo_f': lo_freq,
-                    'src_u': src_u_read,   # power source voltage as set in GUI
-                    'src_i': src_i_read,
                     'sa_p_out': sa_p_out,
                     'sa_p_carr': sa_p_carr,
                     'sa_p_sb': sa_p_sb,
@@ -430,7 +405,6 @@ class InstrumentController(QObject):
         gen_mod.send(f':RAD:ARB OFF')
         if not mock_enabled:
             time.sleep(0.5)
-        src.send('OUTPut OFF')
 
         gen_lo.send(f'SOUR:POW {lo_pow_start}dbm')
         gen_lo.send(f'SOUR:FREQ {lo_f_start}Hz')

@@ -63,7 +63,7 @@ class InstrumentController(QObject):
             'Uoffs': 250,   # mV
             'Usrc': 5.0,
             'UsrcD': 3.3,
-            'IsrcD_max': 20.0,  # mA
+            'IsrcD_max': 100.0,  # mA
             'sa_rlev': 10.0,
             'sa_scale_y': 10.0,
             'sa_span': 10.0,   # MHz

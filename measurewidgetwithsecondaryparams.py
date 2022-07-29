@@ -20,31 +20,31 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
             params={
                 'Plo_min': [
                     'Pгет мин=',
-                    {'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
+                    {'start': -100.0, 'end': 100.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
                 ],
                 'Plo_max': [
                     'Pгет макс=',
-                    {'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
+                    {'start': -100.0, 'end': 100.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
                 ],
                 'Plo_delta': [
                     'ΔPгет=',
-                    {'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
                 ],
                 'Flo_min': [
                     'Fгет.мин=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.05, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 0.05, 'suffix': ' ГГц'}
                 ],
                 'Flo_max': [
                     'Fгет.макс=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.05, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 6.05, 'suffix': ' ГГц'}
                 ],
                 'Flo_delta': [
                     'ΔFгет=',
-                    {'start': 0.0, 'end': 40.0, 'step': 0.1, 'decimals': 3, 'value': 0.1, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 0.1, 'decimals': 5, 'value': 0.1, 'suffix': ' ГГц'}
                 ],
                 'Fmod': [
                     'Fмод=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 1.0, 'suffix': ' МГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 1.0, 'suffix': ' МГц'}
                 ],
                 'Umod': [
                     'Uмод=',

@@ -51,8 +51,14 @@ class MeasureResult:
         sa_p_sb = data['sa_p_sb'] + pow_loss
         sa_p_3_harm = data['sa_p_3_harm'] + pow_loss
 
-        p_in_at_30_percent = -5.27  # p_in at 30%
-        kp_out = sa_p_out - p_in_at_30_percent
+        p_in_from_u_mod_percentage = {  5 : -26.84,   10 : -20.83,   15 : -17.31,   20 : -14.81,
+                                       25 : -12.87,  30 : -11.31,   35 : -9.98,   40 : -8.79,
+                                       45 : -7.77,   50 : -6.85,   55 : -6.03,   60 : -5.27,
+                                       65 : -4.57,   70 : -3.93,   75 : -3.33,   80 : -2.78,
+                                       85 : -2.25,   90 : -1.75,   95 : -1.29,   100 : -0.84
+                                      }
+        p_at_percent = p_in_from_u_mod_percentage[data['Umod']]
+        kp_out = sa_p_out - p_at_percent
         ap_carr = abs(sa_p_carr - lo_p)
 
         a_sb = sa_p_out - sa_p_sb

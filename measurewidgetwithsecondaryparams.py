@@ -20,35 +20,35 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
             params={
                 'Plo_min': [
                     'Pгет мин=',
-                    {'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
+                    {'start': -100.0, 'end': 100.0, 'step': 1.0, 'value': -10.0, 'suffix': ' дБм'}
                 ],
                 'Plo_max': [
                     'Pгет макс=',
-                    {'start': -30.0, 'end': 30.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
+                    {'start': -100.0, 'end': 100.0, 'step': 1.0, 'value': 0.0, 'suffix': ' дБм'}
                 ],
                 'Plo_delta': [
                     'ΔPгет=',
-                    {'start': 0.0, 'end': 30.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'value': 5.0, 'suffix': ' дБм'}
                 ],
                 'Flo_min': [
                     'Fгет.мин=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 0.05, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 0.05, 'suffix': ' ГГц'}
                 ],
                 'Flo_max': [
                     'Fгет.макс=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 6.05, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 6.05, 'suffix': ' ГГц'}
                 ],
                 'Flo_delta': [
                     'ΔFгет=',
-                    {'start': 0.0, 'end': 40.0, 'step': 0.1, 'decimals': 3, 'value': 0.1, 'suffix': ' ГГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 0.1, 'decimals': 5, 'value': 0.1, 'suffix': ' ГГц'}
                 ],
                 'Fmod': [
                     'Fмод=',
-                    {'start': 0.0, 'end': 40.0, 'step': 1.0, 'decimals': 3, 'value': 1.0, 'suffix': ' МГц'}
+                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 5, 'value': 1.0, 'suffix': ' МГц'}
                 ],
                 'Umod': [
                     'Uмод=',
-                    {'start': 0.0, 'end': 100.0, 'step': 1.0, 'decimals': 2, 'value': 30.0, 'suffix': ' %'}
+                    {'start': 5, 'end': 100, 'step': 5, 'decimals': 0, 'value': 30, 'suffix': ' %'}
                 ],
                 'Uoffs': [
                     'Uсм=',
@@ -96,6 +96,8 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 ],
             }
             , parent=self)
+        self._paramInputWidget._layout
+        self._paramInputWidget._secondaryParamWidgets['Umod'].lineEdit().setReadOnly(1)
 
     def _connectSignals(self):
         self._paramInputWidget.secondaryChanged.connect(self.on_params_changed)
@@ -157,7 +159,19 @@ class MeasureWidgetWithSecondaryParameters(MeasureWidget):
                 print('cancelling task')
             self._token.cancelled = True
 
+    def validateUmodValue(self):
+        umod_val = self._paramInputWidget.params['Umod']
+        if (umod_val >= 100):
+            umod_val = 100
+        elif (umod_val <= 5):
+            umod_val = 5
+        elif (umod_val % 5 != 0):
+            umod_val = umod_val - (umod_val % 5)
+        self._paramInputWidget.params['Umod'] = umod_val
+        self._paramInputWidget._secondaryParamWidgets['Umod'].setValue(umod_val)
+
     def on_params_changed(self):
+        self.validateUmodValue()
         self.secondaryChanged.emit(self._paramInputWidget.params)
 
     def updateWidgets(self, params):
